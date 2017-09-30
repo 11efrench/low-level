@@ -35,7 +35,10 @@ attr:	.long	0
 cls:	pushl	%ebp
 	movl	%esp, %ebp
 	# Fill me in!
-        movl    $0x11111111, video
+        xor     %ecx, %ecx
+        movb    $DEFAULT_ATTR, %ah
+        movb    $SPACE, %al
+        movl    %eax, video(, %ecx, 8)
 	movl	%ebp, %esp
 	popl	%ebp
 	ret
