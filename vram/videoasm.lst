@@ -70,19 +70,30 @@
   64 0025 55       	outc:	pushl	%ebp
   65 0026 89E5     		movl	%esp, %ebp
   66              		# Fill me in!
-  67 0028 89EC     		movl	%ebp, %esp
-  68 002a 5D       		popl	%ebp
-  69 002b C3       		ret
-  70              	
-  71              		# Output an unsigned numeric value as a sequence of 8 hex digits.
-  72              		.globl	outhex
-  73 002c 55       	outhex:	pushl	%ebp
-  74 002d 89E5     		movl	%esp, %ebp
-  75              		# Fill me in!
-  76 002f 89EC     		movl	%ebp, %esp
-  77 0031 5D       		popl	%ebp
-  78 0032 C3       		ret
-  79              	
+  67 0028 B8000000 	        movl    $video, %eax
+  67      00
+  68 002d BBA00000 	        movl    $ROWBYTES, %ebx
+  68      00
+  69 0032 B9E80300 	        movl    $(SCREENBYTES >> 2),   %ecx
+  69      00
+  70 0037 8B1418   	scroll: movl    (%eax, %ebx, 1), %edx
+  71 003a 8910     	        movl    %edx, (%eax)
+  72 003c 40       	        incl    %eax
+  73 003d 49       	        decl    %ecx
+  74 003e 75F7     	        jnz     scroll
+  75 0040 89EC     		movl	%ebp, %esp
+  76 0042 5D       		popl	%ebp
+  77 0043 C3       		ret
+  78              	
+  79              		# Output an unsigned numeric value as a sequence of 8 hex digits.
+  80              		.globl	outhex
+  81 0044 55       	outhex:	pushl	%ebp
+  82 0045 89E5     		movl	%esp, %ebp
+  83              		# Fill me in!
+  84 0047 89EC     		movl	%ebp, %esp
+  85 0049 5D       		popl	%ebp
+  86 004a C3       		ret
+  87              	
 DEFINED SYMBOLS
           videoasm.s:2      *ABS*:0000000000000019 ROWS
           videoasm.s:3      *ABS*:0000000000000050 COLS
@@ -100,6 +111,7 @@ DEFINED SYMBOLS
           videoasm.s:40     .text:000000000000000d loop
           videoasm.s:51     .text:000000000000001e setAttr
           videoasm.s:64     .text:0000000000000025 outc
-          videoasm.s:73     .text:000000000000002c outhex
+          videoasm.s:70     .text:0000000000000037 scroll
+          videoasm.s:81     .text:0000000000000044 outhex
 
 NO UNDEFINED SYMBOLS

@@ -64,6 +64,14 @@ setAttr:pushl	%ebp
 outc:	pushl	%ebp
 	movl	%esp, %ebp
 	# Fill me in!
+        movl    $video, %eax
+        movl    $ROWBYTES, %ebx
+        movl    $(SCREENBYTES >> 2),   %ecx
+scroll: movl    (%eax, %ebx, 1), %edx
+        movl    %edx, (%eax)
+        incl    %eax
+        decl    %ecx
+        jnz     scroll
 	movl	%ebp, %esp
 	popl	%ebp
 	ret
